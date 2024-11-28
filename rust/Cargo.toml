@@ -1,0 +1,19 @@
+[package]
+edition = "2021"
+name = "rustffi"
+version = "0.1.0"
+
+[lib]
+crate-type = ["staticlib", "lib"]
+
+[dependencies]
+
+[build-dependencies]
+cbindgen = "0.27.0"
+
+[dev-dependencies]
+criterion = {version = "0.5", features = ["html_reports"]}
+
+[[bench]]
+harness = false
+name = "rust_benchmark"
