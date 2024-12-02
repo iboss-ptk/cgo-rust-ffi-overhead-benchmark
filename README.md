@@ -77,9 +77,20 @@ FibonacciFFI                    66.162μ ± 1%
 ```
 
 
-So simple add diff is +47.41128 ns in this run, this would be the most direct comparison for the overhead of calling a Rust function from Go using FFI.
-Fibonacci increased sec/op compare to pure rust is around 3.2% (+2118ns).
+So simple add diff is +47.41128 ns, this would be the most direct comparison for the overhead of calling a Rust function from Go using FFI.
 
-## Conclusion
+To compare the `FibonacciFFI` benchmark (from Go to Rust via FFI) with the pure Rust `fib 100000` benchmark, we considered their respective mean execution times and uncertainties. Here's how they compare:
 
-Comparing to baseline, CGO overhead is pretty negligible.
+- **FibonacciFFI:** `68.28µ ± 2%`, giving a range of `[66.9144, 69.6456]`.
+- **fib 100000:** `66.162µ ± 1%`, giving a range of `[65.50038, 66.82362]`.
+
+The ranges indicate no overlap, suggesting that `FibonacciFFI` consistently takes longer than the pure Rust `fib 100000`. To quantify the significance of this difference, we calculated the **z-score**:
+\[
+z = \frac{\text{Difference between means}}{\sqrt{\text{Variance 1} + \text{Variance 2}}}
+\]
+The result was `z ≈ 1.40`, which corresponds to a `p-value ≈ 16%`. This means there is a 16% probability that the observed difference is due to random variation, which is not statistically significant at common confidence thresholds (e.g., 95%).
+
+### Conclusion
+While the `FibonacciFFI` benchmark exhibits slightly higher execution times compared to `fib 100000`, the difference is relatively minor and likely reflects the overhead of calling Rust functions from Go using FFI in which it's not statistically significant.
+
+
