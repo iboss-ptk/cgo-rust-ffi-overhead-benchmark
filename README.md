@@ -90,7 +90,16 @@ z = \frac{\text{Difference between means}}{\sqrt{\text{Variance 1} + \text{Varia
 \]
 The result was `z ≈ 1.40`, which corresponds to a `p-value ≈ 16%`. This means there is a 16% probability that the observed difference is due to random variation, which is not statistically significant at common confidence thresholds (e.g., 95%).
 
-### Conclusion
 While the `FibonacciFFI` benchmark exhibits slightly higher execution times compared to `fib 100000`, the difference is relatively minor and likely reflects the overhead of calling Rust functions from Go using FFI in which it's not statistically significant.
 
 
+## Build & Deployment process
+
+To address build and deployment process, we can utilize multi-stage build in docker to build the rust library and then use it to link and build the go binary.
+
+```sh
+docker build -t ffibench .
+docker run ffibench -test.bench=. -test.cpu=1
+```
+
+This should address the concerns on build and deployment complexity.

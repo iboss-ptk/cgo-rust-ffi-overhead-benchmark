@@ -1,8 +1,8 @@
 package ffibench
 
 /*
-#cgo LDFLAGS: ${SRCDIR}/rust/target/release/librust.a -ldl
-#include "rust/target/release/librust.h"
+#cgo LDFLAGS: -L${SRCDIR}/rust/target/release -lrustffi -ldl
+#include "rust/target/release/librustffi.h"
 */
 import "C"
 
