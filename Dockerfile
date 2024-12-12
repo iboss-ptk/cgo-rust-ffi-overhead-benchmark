@@ -6,7 +6,7 @@ FROM --platform=linux/arm64 rust:1.82.0 as rustbuilder
 
 WORKDIR /ffibench
 
-COPY . .
+COPY rust rust
 
 RUN cargo build --release --manifest-path=rust/Cargo.toml
 
@@ -16,8 +16,13 @@ RUN cargo build --release --manifest-path=rust/Cargo.toml
 
 FROM --platform=linux/arm64 golang:1.22 as gobuilder
 
-COPY --from=rustbuilder /ffibench /ffibench
+
 WORKDIR /ffibench
+COPY . . 
+
+COPY --from=rustbuilder /ffibench/rust/target/release/librustffi.a /ffibench/rust/target/release/librustffi.a
+COPY --from=rustbuilder /ffibench/rust/target/release/librustffi.h /ffibench/rust/target/release/librustffi.h
+
 
 ENTRYPOINT [ "/bin/bash" ]
 
